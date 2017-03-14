@@ -1,0 +1,74 @@
+* text=off
+
+###
+# Documents
+#
+*.doc	 	diff=astextplain
+*.DOC	 	diff=astextplain
+*.docx 		diff=astextplain
+*.DOCX 		diff=astextplain
+*.dot  		diff=astextplain
+*.DOT  		diff=astextplain
+*.pdf  		diff=astextplain
+*.PDF	 	diff=astextplain
+*.rtf	 	diff=astextplain
+*.RTF	 	diff=astextplain
+
+###
+# Source Code
+#
+*.cs 	diff=csharp
+*.c  	diff=cpp
+*.cpp 	diff=cpp
+*.objc 	diff=objc
+*.java 	diff=java
+*.py 	diff=python
+*.html 	diff=html
+*.htm  	diff=htm
+*.xhtml	diff=html
+*.xhtm 	diff=html
+*.xml 	diff=patience
+
+###
+# Compressed Binary Files
+#
+*.png 		binary -delta
+*.jpg 		binary -delta
+*.jpeg 		binary -delta
+*.gif 		binary -delta
+*.7z 		binary -delta
+*.zip 		binary -delta
+*.ZIP 		binary -delta
+*.gz 		binary -delta
+*.bz2 		binary -delta
+*.mp3       binary -delta
+*.mp4       binary -delta
+*.mpg       binary -delta
+*.mpeg      binary -delta
+*.ogg       binary -delta
+*.wma       binary -delta
+*.wmv       binary -delta
+
+###
+# Ordinary Binary Files
+#
+*.ps 		binary
+*.wav		binary
+*.tiff		binary
+*.psd		binary
+*.ttf 		binary
+*.fbx		binary
+*.tiff		binary
+*.tif		binary
+
+###
+# Unity Files
+#
+*.meta 			-merge
+*.asset 		-merge
+*.unity			-merge
+*.prefab		-merge
+*.anim			-merge
+*.controller	-merge
+*.mask			-merge
+*.mat			-merge
