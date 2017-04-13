@@ -2,7 +2,7 @@
 <PatternSettingsContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <patternPath>VoxelStudy/Game/Resources/Patterns/</patternPath>
   <levelTilePath>VoxelStudy/Game/Prefabs/Tiles/</levelTilePath>
-  <tiledSize>1.6</tiledSize>
+  <tiledSize>1</tiledSize>
   <gridX>9</gridX>
   <playerYOffset>2</playerYOffset>
 </PatternSettingsContainer>
