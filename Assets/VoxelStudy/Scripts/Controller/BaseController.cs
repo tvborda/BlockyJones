@@ -21,7 +21,8 @@ namespace VoxelStudy
         public float jumpHeight = 2.0f;
         public float fallSpeed = 40f;
 
-        protected bool idle = true;
+        public bool activate = false;
+        public bool idle = true;
         protected int horizontal = 0;
         protected int vertical = 0;
 
@@ -64,6 +65,8 @@ namespace VoxelStudy
         {
             Vector3 start = transform.position;
             Vector3 end = start + new Vector3(horizontal * PatternSettings.tiledSize, 0f, vertical * PatternSettings.tiledSize);
+            //Debug.Log(string.Format("Start ({0}, {1}, {2})", start.x, start.y, start.z));
+            //Debug.Log(string.Format("End   ({0}, {1}, {2})", end.x, end.y, end.z));
 
             RaycastHit hitInfo;
             // Check for any barriers on destination tile
@@ -124,6 +127,7 @@ namespace VoxelStudy
                 yield return null;
             }
             characterBody.localPosition = Vector3.zero;
+            transform.position = end;
             moveTime = originalMoveTime;
             CheckGround();
         }

@@ -327,11 +327,27 @@ namespace VoxelStudy
             }
         }
 
+        private void PrimePrefabForUpdateSave()
+        {
+            Tile[] children = pattern.GetComponentsInChildren<Tile>();
+            //used the store the level tiles as part of the pattern prefab while
+            //preserving the connection to the prefab instantiated by the levelblock
+            //used to get around the problem with nested prefabs and unity
+            for (int i = 0; i < children.Length; i++)
+            {
+                DestroyImmediate(children[i].transform.GetChild(0).gameObject);
+            }
+            //currentInstantiatingDelay = Time.realtimeSinceStartup;
+            //primedForPrefab = true;
+        }
+
         private void SaveUpdatePrefab(string prefabPath)
         {
+            PrimePrefabForUpdateSave();
             AssetDatabase.Refresh();
             PrefabUtility.CreatePrefab(prefabPath, pattern.gameObject, ReplacePrefabOptions.ConnectToPrefab);
             AssetDatabase.Refresh();
+            InitializePattern();
         }
 
         private void UpdatePrefab()

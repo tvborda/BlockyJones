@@ -11,14 +11,17 @@ namespace VoxelStudy
 
         void Update()
         {
-            if (idle)
+            if (Time.timeScale > 0 && activate)
             {
-                horizontal = (int)Input.GetAxisRaw("Horizontal");
-                vertical = (horizontal == 0) ? (int)Input.GetAxisRaw("Vertical") : 0;
-                if (horizontal != 0 || vertical != 0)
+                if (idle)
                 {
-                    AttemptRotate();
-                    AttemptMove();
+                    horizontal = (int)Input.GetAxisRaw("Horizontal");
+                    vertical = (horizontal == 0) ? (int)Input.GetAxisRaw("Vertical") : 0;
+                    if (horizontal != 0 || vertical != 0)
+                    {
+                        AttemptRotate();
+                        AttemptMove();
+                    }
                 }
             }
         }

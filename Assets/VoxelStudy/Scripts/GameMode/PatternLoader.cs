@@ -3,18 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using VoxelStudy;
 
-public class PatternLoader : MonoBehaviour {
+public class PatternLoader : MonoBehaviour
+{
 
     public static PatternLoader instance = null;
     public bool isPersistant = true;
 
     [HideInInspector]
-    public string patternLocation = "";
-
-    [HideInInspector]
     private Transform[] patterns;
     [HideInInspector]
-    private List<Transform> introductoryPatterns = new List<Transform> ();
+    private List<Transform> introductoryPatterns = new List<Transform>();
     [HideInInspector]
     private List<Transform> connectorPatterns = new List<Transform>();
     [HideInInspector]
@@ -26,40 +24,50 @@ public class PatternLoader : MonoBehaviour {
 
     [HideInInspector]
     public bool patternsLoaded = false;
-    private List<int> tempEntranceList = new List<int> ();
+    private List<int> tempEntranceList = new List<int>();
 
-    void Awake() {
-        if (instance == null) {
+    void Awake()
+    {
+        if (instance == null)
+        {
             instance = this;
-        } else if (instance != this) {
-            Destroy (gameObject);
         }
-        if (isPersistant) {
-            DontDestroyOnLoad (gameObject);
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        if (isPersistant)
+        {
+            DontDestroyOnLoad(gameObject);
         }
     }
 
-    public void LoadPatterns() {
-        if (patternsLoaded == false) {
-            Debug.Log ("Loading Patterns...");
-            patterns = Resources.LoadAll<Transform> (patternLocation);
-            for (int i = 0; i < patterns.Length; i++) {
-                Pattern indexedPatternScript = patterns [i].GetComponent<Pattern> ();
-                switch (indexedPatternScript.type) {
+    public void LoadPatterns()
+    {
+        if (patternsLoaded == false)
+        {
+            string patternLocation = PatternSettings.patternPath.Substring(PatternSettings.patternPath.LastIndexOf("/Resources/") + 11);
+            Debug.Log("Loading Patterns: " + patternLocation);
+            patterns = Resources.LoadAll<Transform>(patternLocation);
+            for (int i = 0; i < patterns.Length; i++)
+            {
+                Pattern indexedPatternScript = patterns[i].GetComponent<Pattern>();
+                switch (indexedPatternScript.type)
+                {
                     case Pattern.Type.Introductory:
-                        introductoryPatterns.Add (patterns [i]);
+                        introductoryPatterns.Add(patterns[i]);
                         break;
                     case Pattern.Type.Connector:
-                        connectorPatterns.Add (patterns [i]);
+                        connectorPatterns.Add(patterns[i]);
                         break;
                     case Pattern.Type.Easy:
-                        easyPatterns.Add (patterns [i]);
+                        easyPatterns.Add(patterns[i]);
                         break;
                     case Pattern.Type.Medium:
-                        mediumPatterns.Add (patterns [i]);
+                        mediumPatterns.Add(patterns[i]);
                         break;
                     case Pattern.Type.Hard:
-                        hardPatterns.Add (patterns [i]);
+                        hardPatterns.Add(patterns[i]);
                         break;
                 }
             }
@@ -67,52 +75,72 @@ public class PatternLoader : MonoBehaviour {
         }
     }
 
-    public Transform GetIntroductoryPattern() {
+    public Transform GetIntroductoryPattern()
+    {
         Transform pattern = null;
-        if (introductoryPatterns.Count > 0) {
-            pattern = introductoryPatterns [Random.Range (0, introductoryPatterns.Count)];
-        } else {
-            Debug.LogWarning ("There are no Introductory patterns");
+        if (introductoryPatterns.Count > 0)
+        {
+            pattern = introductoryPatterns[Random.Range(0, introductoryPatterns.Count)];
         }
-        return pattern;
-    }
-        
-    public Transform GetConnectorPattern() {
-        Transform pattern = null;
-        if (connectorPatterns.Count > 0) {
-            pattern = connectorPatterns [Random.Range (0, connectorPatterns.Count)];
-        }  else {
-            Debug.LogWarning ("There are no Connector patterns");
+        else
+        {
+            Debug.LogWarning("There are no Introductory patterns");
         }
         return pattern;
     }
 
-    public Transform GetEasyPattern() {
+    public Transform GetConnectorPattern()
+    {
         Transform pattern = null;
-        if (easyPatterns.Count > 0) {
-            pattern = easyPatterns [Random.Range (0, easyPatterns.Count)];
-        } else {
-            Debug.LogWarning ("There are no Easy patterns");
+        if (connectorPatterns.Count > 0)
+        {
+            pattern = connectorPatterns[Random.Range(0, connectorPatterns.Count)];
+        }
+        else
+        {
+            Debug.LogWarning("There are no Connector patterns");
         }
         return pattern;
     }
 
-    public Transform GetMediumPattern(int entranceInt = -1) {
+    public Transform GetEasyPattern()
+    {
         Transform pattern = null;
-        if (mediumPatterns.Count > 0) {
-            pattern = mediumPatterns [Random.Range (0, mediumPatterns.Count)];
-        } else {
-            Debug.LogWarning ("There are no Medium patterns");
+        if (easyPatterns.Count > 0)
+        {
+            pattern = easyPatterns[Random.Range(0, easyPatterns.Count)];
+        }
+        else
+        {
+            Debug.LogWarning("There are no Easy patterns");
         }
         return pattern;
     }
 
-    public Transform GetHardPattern(int entranceInt = -1) {
+    public Transform GetMediumPattern(int entranceInt = -1)
+    {
         Transform pattern = null;
-        if (hardPatterns.Count > 0) {
-            pattern = hardPatterns [Random.Range (0, hardPatterns.Count)];
-        } else {
-            Debug.LogWarning ("There are no Hard patterns");
+        if (mediumPatterns.Count > 0)
+        {
+            pattern = mediumPatterns[Random.Range(0, mediumPatterns.Count)];
+        }
+        else
+        {
+            Debug.LogWarning("There are no Medium patterns");
+        }
+        return pattern;
+    }
+
+    public Transform GetHardPattern(int entranceInt = -1)
+    {
+        Transform pattern = null;
+        if (hardPatterns.Count > 0)
+        {
+            pattern = hardPatterns[Random.Range(0, hardPatterns.Count)];
+        }
+        else
+        {
+            Debug.LogWarning("There are no Hard patterns");
         }
         return pattern;
     }
