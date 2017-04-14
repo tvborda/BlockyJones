@@ -29,10 +29,14 @@ namespace VoxelStudy
                     }
                     else
                     {
-                        //instancePrefab = TVNTObjectPool.instance.SpawnObject(tilePrefab);
+                        instancePrefab = TileObjectPool.instance.SpawnObject(tilePrefab);
+                        // TODO FIX
+                        //instancePrefab = PrefabUtility.InstantiatePrefab(tilePrefab) as Transform;
                     }
 #else
-					//instancePrefab = TVNTObjectPool.instance.SpawnObject(tilePrefab);
+					instancePrefab = TileObjectPool.instance.SpawnObject(tilePrefab);
+                    // TODO FIX
+                    //instancePrefab = PrefabUtility.InstantiatePrefab(tilePrefab) as Transform;
 #endif
                     instancePrefab.parent = transform;
                 }
