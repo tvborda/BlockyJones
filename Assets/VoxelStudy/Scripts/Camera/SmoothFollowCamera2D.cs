@@ -13,14 +13,6 @@ public class SmoothFollowCamera2D : MonoBehaviour {
     public bool disableChase = false;
     public float chaseSpeed = 20.0f;
 
-    void Start()
-    {
-        if (target)
-        {
-            transform.position = target.position + targetOffset;
-        }
-    }
-
     void Update()
     {
         if (target)

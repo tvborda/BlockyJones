@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace VoxelStudy
 {
@@ -19,24 +20,21 @@ namespace VoxelStudy
         private bool spawnConnectorPattern = false;
         private Transform activeCharacter = null;
 
-        private float newPatternStartZ = 0;
+        private float newPatternStartZ = 0.0f;
         private float patternSpawnDistance = 20.0f;
         private Tile[] levelTiles;
         private List<Transform> onScreenPatterns = new List<Transform>();
 
         private bool gameStarted = false;
         private bool gameOver = false;
+        public float gameOverMenuDelay = 1.0f;
+        public RectTransform menuPanel;
+        public RectTransform gameOverPanel;
 
         void Start()
         {
             PatternLoader.instance.LoadPatterns();
             LoadGame();
-        }
-
-        public void StartGame()
-        {
-            activeCharacter.GetComponent<BaseController>().activate = true;
-            gameStarted = true;
         }
 
         void FixedUpdate()
@@ -85,9 +83,86 @@ namespace VoxelStudy
             }
         }
 
+        void LateUpdate()
+        {
+            if (gameStarted && !gameOver)
+            {
+                if (!activeCharacter)
+                {
+                    //gameOver = true;
+                    Invoke("GameOver", gameOverMenuDelay);
+                    return;
+                }
+
+                //Vector2 playerCameraPosition = Camera.main.WorldToViewportPoint(activeCharacter.position + new Vector3(0, 0, -0.5f * PatternSettings.tiledSize));
+                //if (playerCameraPosition.x > 1 || playerCameraPosition.y > 1)
+                //{
+                //    activeCharacter.GetComponent<TVNTPlayerController>().activate = false;
+                //    GameOver();
+                //}
+
+                //cameraTarget.Translate(0, 0, -cameraTargetSpeed * Time.deltaTime);
+                //if (activeCharacter.position.z < cameraTarget.position.z)
+                //{
+                //    cameraTarget.Translate(0, 0, -(cameraTarget.position.z - activeCharacter.position.z) * Time.deltaTime);
+                //}
+
+                //int newScore = Mathf.FloorToInt((characterInitialPosition - activeCharacter.position.z) / PatternSettings.tiledSize);
+                //if (newScore > score)
+                //{
+                //    score = newScore;
+                //    scoreText.text = score.ToString();
+                //}
+            }
+        }
+
         private void LoadGame()
         {
             StartCoroutine(SpawnPattern());
+        }
+
+        public void StartGame()
+        {
+            activeCharacter.GetComponent<BaseController>().activate = true;
+            menuPanel.gameObject.SetActive(false);
+            gameStarted = true;
+        }
+
+        private void GameOver()
+        {
+            gameOver = true;
+            gameOverPanel.gameObject.SetActive(true);
+        }
+
+        public void RestartGame()
+        {
+            if (activeCharacter)
+            {
+                Destroy(activeCharacter.gameObject);
+            }
+            for (int i = onScreenPatterns.Count - 1; i > -1; i--)
+            {
+                Transform selectedPattern = onScreenPatterns[i];
+                onScreenPatterns.RemoveAt(i);
+
+                GroundCollider[] groundColliders = selectedPattern.GetComponentsInChildren<GroundCollider>();
+                for (int j = 0; j < groundColliders.Length; j++)
+                {
+                    groundColliders[j].occupied = false;
+                }
+                levelTiles = selectedPattern.GetComponentsInChildren<Tile>();
+                for (int j = 0; j < levelTiles.Length; j++)
+                {
+                    if (levelTiles[j].instancePrefab)
+                    {
+                        TileObjectPool.instance.ReleaseObject(levelTiles[j].instancePrefab);
+                    }
+                    levelTiles[j].instancePrefab = null;
+                }
+                Destroy(selectedPattern.gameObject);
+            }
+            gameOverPanel.gameObject.SetActive(false);
+            SceneManager.LoadScene("BaseScene");
         }
 
         private IEnumerator SpawnPattern()
@@ -151,7 +226,9 @@ namespace VoxelStudy
 
                     Vector3 startPosition = new Vector3(xCenterTile + tileOffset, PatternSettings.tiledSize, tileOffset);
                     activeCharacter.position = startPosition;
-                    Camera.main.GetComponent<SmoothFollowCamera2D>().target = activeCharacter;
+                    SmoothFollowCamera2D smoothFollowCamera2D = Camera.main.GetComponent<SmoothFollowCamera2D>();
+                    smoothFollowCamera2D.target = activeCharacter;
+                    Camera.main.transform.position = activeCharacter.position + smoothFollowCamera2D.targetOffset;
                     spawnCharacter = false;
                 }
                 yield return null;

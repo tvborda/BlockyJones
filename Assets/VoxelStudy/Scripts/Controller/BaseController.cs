@@ -162,7 +162,7 @@ namespace VoxelStudy
 
         private void Falling()
         {
-            Vector3 end = transform.position + new Vector3(0, -50f, 0);
+            Vector3 end = transform.position + new Vector3(0, -20f, 0);
             anim.SetTrigger("Idle");
             StartCoroutine(Fall(end));
         }
