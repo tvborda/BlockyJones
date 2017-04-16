@@ -123,9 +123,9 @@ namespace VoxelStudy
 
         public void StartGame()
         {
-            activeCharacter.GetComponent<BaseController>().activate = true;
             menuPanel.gameObject.SetActive(false);
             gameStarted = true;
+            activeCharacter.GetComponent<BaseController>().activate = true;
         }
 
         private void GameOver()
