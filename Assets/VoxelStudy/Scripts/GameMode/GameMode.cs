@@ -284,7 +284,7 @@ namespace VoxelStudy
                 {
                     gameOverScoreText = t;
                 }
-                if (t.gameObject.name == "Best")
+                else if (t.gameObject.name == "Best")
                 {
                     gameOverBestScoreText = t;
                 }

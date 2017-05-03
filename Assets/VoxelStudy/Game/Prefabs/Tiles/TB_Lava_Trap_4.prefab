@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503471131493470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.760563, y: 8.652708, z: 12.020952}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,9 +53,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4034695275834148, guid: 95349a80fd60c284d83a3e3db184a56a, type: 2}
   instancePrefab: {fileID: 0}
-  phaseTime: 2
+  delay: 0
+  spikeUpTime: 2
+  spikeDownTime: 2
   spikeUpY: 0.75
   spikeDownY: 0
   spikeMoveUpSpeed: 5
   spikeMoveDownSpeed: 5
-  spikeUp: 0

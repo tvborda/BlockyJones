@@ -90,6 +90,7 @@ namespace VoxelStudy
                 sqrRemainingDistance = (spikes.localPosition - target).sqrMagnitude;
                 yield return null;
             }
+            spikes.localPosition = target;
         }
     }
 }
