@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4911352137904466}
-  - component: {fileID: 114253904179721196}
+  - component: {fileID: 114633086590363986}
   m_Layer: 0
   m_Name: TB_Lava_Trap_4
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114253904179721196
+--- !u!114 &114633086590363986
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,8 +48,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1503471131493470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cdf0fc7de8b62d4f93cc02396b42fdc, type: 3}
+  m_Script: {fileID: 11500000, guid: 835231ae212083043bf4b7ba009ab1b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4034695275834148, guid: 95349a80fd60c284d83a3e3db184a56a, type: 2}
   instancePrefab: {fileID: 0}
+  phaseTime: 2
+  spikeUpY: 0.75
+  spikeDownY: 0
+  spikeMoveUpSpeed: 5
+  spikeMoveDownSpeed: 5
+  spikeUp: 0
