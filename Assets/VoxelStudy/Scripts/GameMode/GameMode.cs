@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace VoxelStudy
 {
@@ -9,6 +11,10 @@ namespace VoxelStudy
     {
         public Transform patternParentContainer;
         public Transform characterPrefab;
+
+        public RectTransform menuPanel;
+        public RectTransform gameOverPanel;
+        public RectTransform gamePlayPanel;
 
         //Game difficulty
         private int numberOfPatternsAdded = 0;
@@ -28,8 +34,19 @@ namespace VoxelStudy
         private bool gameStarted = false;
         private bool gameOver = false;
         public float gameOverMenuDelay = 1.0f;
-        public RectTransform menuPanel;
-        public RectTransform gameOverPanel;
+
+        //Score
+        private Text gamePlayScoreText = null;
+        private Text gameOverScoreText = null;
+        private Text gameOverBestScoreText = null;
+        private float activeCharacterInitialZ = 0.0f;
+        private int score = 0;
+        private int bestScore = 0;
+
+        void Awake()
+        {
+            InitializeScoreTexts();
+        }
 
         void Start()
         {
@@ -74,6 +91,7 @@ namespace VoxelStudy
                     }
                     activeCharacter.position += new Vector3(0, 0, amountToReset);
                     newPatternStartZ += (amountToReset / PatternSettings.tiledSize);
+                    activeCharacterInitialZ += Mathf.Abs(amountToReset);
                     return;
                 }
 
@@ -108,23 +126,30 @@ namespace VoxelStudy
                 //    cameraTarget.Translate(0, 0, -(cameraTarget.position.z - activeCharacter.position.z) * Time.deltaTime);
                 //}
 
-                //int newScore = Mathf.FloorToInt((characterInitialPosition - activeCharacter.position.z) / PatternSettings.tiledSize);
-                //if (newScore > score)
-                //{
-                //    score = newScore;
-                //    scoreText.text = score.ToString();
-                //}
+                int newScore = Mathf.FloorToInt((activeCharacterInitialZ + activeCharacter.position.z) / PatternSettings.tiledSize);
+                if (newScore > score)
+                {
+                    score = newScore;
+                    gamePlayScoreText.text = score.ToString();
+                    if (score > bestScore)
+                    {
+                        bestScore = newScore;
+                        PlayerPrefs.SetInt("BestScore", bestScore);
+                    }
+                }
             }
         }
 
         private void LoadGame()
         {
+            bestScore = PlayerPrefs.GetInt("BestScore", 1);
             StartCoroutine(SpawnPattern());
         }
 
         public void StartGame()
         {
             menuPanel.gameObject.SetActive(false);
+            gamePlayPanel.gameObject.SetActive(true);
             gameStarted = true;
             activeCharacter.GetComponent<BaseController>().activate = true;
         }
@@ -132,6 +157,9 @@ namespace VoxelStudy
         private void GameOver()
         {
             gameOver = true;
+            gameOverScoreText.text = score.ToString();
+            gameOverBestScoreText.text = bestScore.ToString();
+            gamePlayPanel.gameObject.SetActive(false);
             gameOverPanel.gameObject.SetActive(true);
         }
 
@@ -227,6 +255,7 @@ namespace VoxelStudy
 
                     Vector3 startPosition = new Vector3(xCenterTile + tileOffset, PatternSettings.tiledSize, tileOffset);
                     activeCharacter.position = startPosition;
+                    activeCharacterInitialZ = startPosition.z;
                     SmoothFollowCamera2D smoothFollowCamera2D = Camera.main.GetComponent<SmoothFollowCamera2D>();
                     smoothFollowCamera2D.target = activeCharacter;
                     Camera.main.transform.position = activeCharacter.position + smoothFollowCamera2D.targetOffset;
@@ -235,5 +264,32 @@ namespace VoxelStudy
                 yield return null;
             }
         }
+
+        private void InitializeScoreTexts()
+        {
+            Text[] textComponents = gamePlayPanel.GetComponentsInChildren<Text>();
+            foreach (Text t in textComponents)
+            {
+                if (t.gameObject.name == "Score")
+                {
+                    gamePlayScoreText = t;
+                    break;
+                }
+            }
+
+            textComponents = gameOverPanel.GetComponentsInChildren<Text>();
+            foreach (Text t in textComponents)
+            {
+                if (t.gameObject.name == "Score")
+                {
+                    gameOverScoreText = t;
+                }
+                if (t.gameObject.name == "Best")
+                {
+                    gameOverBestScoreText = t;
+                }
+            }
+        }
+
     }
 }
