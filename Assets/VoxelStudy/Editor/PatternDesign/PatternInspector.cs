@@ -213,7 +213,7 @@ namespace VoxelStudy
                 _previewRenderUtility.m_Camera.transform.position = Vector3.zero;
                 _previewRenderUtility.m_Camera.transform.rotation = Quaternion.Euler(45, -20, 0);
                 _previewRenderUtility.m_Camera.orthographic = true;
-                _previewRenderUtility.m_Camera.orthographicSize = 16;
+                _previewRenderUtility.m_Camera.orthographicSize = 6;
                 _previewRenderUtility.m_Camera.nearClipPlane = -100.0f;
                 _previewRenderUtility.m_Camera.farClipPlane = 100.0f;
             }
@@ -265,7 +265,8 @@ namespace VoxelStudy
 
         void OnDestroy()
         {
-            _previewRenderUtility.Cleanup();
+            if (_previewRenderUtility != null)
+                _previewRenderUtility.Cleanup();
         }
         #endregion
 

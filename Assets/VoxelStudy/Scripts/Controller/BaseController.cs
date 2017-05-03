@@ -26,6 +26,9 @@ namespace VoxelStudy
         protected int horizontal = 0;
         protected int vertical = 0;
 
+        public Transform deathParticles;
+        public bool invincible = false;
+
         private Animator anim = null;
         //private Rigidbody rb = null;
         private float originalMoveTime = 0.0f;
@@ -192,6 +195,19 @@ namespace VoxelStudy
                 destinationTile = null;
             }
             Destroy(gameObject);
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "DungeonWeapon" && invincible == false)
+            {
+                Transform _pe_Death = (Transform)Instantiate(deathParticles, Vector3.zero, Quaternion.identity);
+                _pe_Death.position = new Vector3(transform.position.x, 2f, transform.position.z);
+                ParticleSystem ps = _pe_Death.GetComponent<ParticleSystem>();
+                //float timeDelay = ps.startLifetime;
+                //_pe_Death.GetComponent<TimedDestroy>().delay = timeDelay;
+                CharacterDead();
+            }
         }
     }
 }

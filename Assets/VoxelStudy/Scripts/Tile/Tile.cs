@@ -30,13 +30,9 @@ namespace VoxelStudy
                     else
                     {
                         instancePrefab = TileObjectPool.instance.SpawnObject(tilePrefab);
-                        // TODO FIX
-                        //instancePrefab = PrefabUtility.InstantiatePrefab(tilePrefab) as Transform;
                     }
 #else
 					instancePrefab = TileObjectPool.instance.SpawnObject(tilePrefab);
-                    // TODO FIX
-                    //instancePrefab = PrefabUtility.InstantiatePrefab(tilePrefab) as Transform;
 #endif
                     instancePrefab.parent = transform;
                 }
@@ -50,6 +46,11 @@ namespace VoxelStudy
                 instancePrefab.localScale = new Vector3(Mathf.Abs(instancePrefab.localScale.x), Mathf.Abs(instancePrefab.localScale.y), Mathf.Abs(instancePrefab.localScale.z));
                 instancePrefab.gameObject.SetActive(true);
             }
+        }
+
+        public virtual void Reset()
+        {
+
         }
 
         public virtual void InspectorUpdate()

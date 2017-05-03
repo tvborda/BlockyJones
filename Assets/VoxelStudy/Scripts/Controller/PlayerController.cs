@@ -5,7 +5,7 @@ namespace VoxelStudy
 {
     public class PlayerController : BaseController
     {
-        public float dragThreshold = 15.0f;
+        public float dragThreshold = 5.0f;
         private float dragDistance;
         private Vector2 touchOrigin = -Vector2.one;
 

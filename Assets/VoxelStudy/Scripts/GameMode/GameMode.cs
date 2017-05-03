@@ -53,6 +53,7 @@ namespace VoxelStudy
                         levelTiles = selectedPattern.GetComponentsInChildren<Tile>();
                         for (int j = 0; j < levelTiles.Length; j++)
                         {
+                            levelTiles[j].Reset();
                             if (levelTiles[j].instancePrefab)
                             {
                                 TileObjectPool.instance.ReleaseObject(levelTiles[j].instancePrefab);
