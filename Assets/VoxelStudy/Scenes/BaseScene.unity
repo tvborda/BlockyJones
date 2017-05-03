@@ -1255,6 +1255,12 @@ Prefab:
       propertyPath: gamePlayPanel
       value: 
       objectReference: {fileID: 868540149}
+    - target: {fileID: 114224833779828068, guid: 7abc5bb9443257e44a1d3e76ffb40b36,
+        type: 2}
+      propertyPath: initialFiller
+      value: 
+      objectReference: {fileID: 4887761594512598, guid: 77338e6b06faf434ebcc11f9bb714eaa,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7abc5bb9443257e44a1d3e76ffb40b36, type: 2}
   m_IsPrefabParent: 0

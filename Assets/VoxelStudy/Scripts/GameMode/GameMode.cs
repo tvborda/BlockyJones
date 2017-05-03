@@ -16,6 +16,8 @@ namespace VoxelStudy
         public RectTransform gameOverPanel;
         public RectTransform gamePlayPanel;
 
+        public Transform initialFiller;
+        private Transform filler;
         //Game difficulty
         private int numberOfPatternsAdded = 0;
         public int numberOfEasyPatterns = 20;
@@ -51,6 +53,11 @@ namespace VoxelStudy
         void Start()
         {
             PatternLoader.instance.LoadPatterns();
+
+            // Instantiate Filler
+            filler = (Transform)Instantiate(initialFiller);
+            filler.transform.position = Vector3.zero;
+
             LoadGame();
         }
 
@@ -83,6 +90,8 @@ namespace VoxelStudy
 
                 if ((activeCharacter.position.z > 20) && activeCharacter.GetComponent<BaseController>().idle)
                 {
+                    if (filler != null)
+                        DestroyImmediate(filler.gameObject);
                     float amountToReset = -activeCharacter.position.z;
                     Camera.main.transform.position += new Vector3(0, 0, amountToReset);
                     for (int i = 0; i < onScreenPatterns.Count; i++)
